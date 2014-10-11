@@ -16,14 +16,20 @@ function librarydams_customizations_block_info() {
 */
 function librarydams_customizations_block_view($block_name = '') {
   if ($block_name == 'mods_metadata') {
+    $block = array();
     // Is there a better way to do this?
-    $object_id = arg(2);
-    $islandora_object = islandora_object_load($object_id);
-    $content = islandora_mods_display_display_callback($islandora_object);
-    $block = array(
-      'subject' => t('MODS Metadata'),
-      'content' => $content,
-    );
+    if (arg(2)) {
+      $object_id = arg(2);
+      $datastream = islandora_datastream_load('MODS', $object_id);
+      if (is_object($datastream) && $datastream->id === 'MODS') {
+        $islandora_object = islandora_object_load($object_id);
+        $content = islandora_mods_display_display_callback($islandora_object);
+        $block = array(
+          'subject' => t('MODS Metadata'),
+          'content' => $content,
+        );      
+      }
+    }
     return $block;
   }
 }
