@@ -1,0 +1,7 @@
+name = "LibraryDAMS Customizations"
+description = "Customizations for LibraryDAMS."
+core = 7.x
+package = LibraryDAMS
+dependencies[] = block
+dependencies[] = islandora
+dependencies[] = islandora_mods_display

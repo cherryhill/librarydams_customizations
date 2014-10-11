@@ -1,0 +1,29 @@
+<?php
+
+/**
+* Implements hook_block_info().
+*/
+function librarydams_customizations_block_info() {
+  $blocks = array();
+  $blocks['mods_metadata'] = array(
+    'info' => t('MODS metadata'),
+  );
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function librarydams_customizations_block_view($block_name = '') {
+  if ($block_name == 'mods_metadata') {
+    // Is there a better way to do this?
+    $object_id = arg(2);
+    $islandora_object = islandora_object_load($object_id);
+    $content = islandora_mods_display_display_callback($islandora_object);
+    $block = array(
+      'subject' => t('MODS Metadata'),
+      'content' => $content,
+    );
+    return $block;
+  }
+}
