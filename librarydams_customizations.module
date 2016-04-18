@@ -27,9 +27,19 @@ function librarydams_customizations_block_view($block_name = '') {
         $block = array(
           'subject' => t('MODS Metadata'),
           'content' => $content,
-        );      
+        );
       }
     }
     return $block;
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function librarydams_customizations_preprocess_html(&$variables) {
+// Add conditional stylesheets for admin pages on admin theme.
+  if (path_is_admin(current_path())) {
+    drupal_add_css(drupal_get_path('module', 'librarydams_customizations') . '/css/admin.css', array('weight' => CSS_THEME));
   }
 }

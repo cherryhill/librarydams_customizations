@@ -1,0 +1,4 @@
+/* Provide a class to in-line form items */
+.form-group-inline .form-item {
+  display: inline;
+}
