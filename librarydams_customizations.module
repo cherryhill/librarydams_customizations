@@ -43,3 +43,16 @@ function librarydams_customizations_preprocess_html(&$variables) {
     drupal_add_css(drupal_get_path('module', 'librarydams_customizations') . '/css/admin.css', array('weight' => CSS_THEME));
   }
 }
+
+/**
+ * Callback from form to validate terms in an autocompleted text field
+ */
+function librarydams_customizations_taxonomy_validate($element, &$form_state) {
+  if (isset($element['#autocomplete_path'])) {
+    $field = str_replace('taxonomy/autocomplete/', '', $element['#autocomplete_path']);
+    $allowed = taxonomy_allowed_values(field_info_field($field));
+    if (!in_array($element['#value'], $allowed)) {
+      form_error($element, t($element['#title']) . ' - ' . t('Please select a term from the autocomplete list.'));
+    }
+  }
+}
