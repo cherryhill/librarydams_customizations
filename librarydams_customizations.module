@@ -1,5 +1,7 @@
 <?php
 
+define('ISLANDORA_SOLR_ADVANCED_SEARCH_PATH', 'islandora/advanced-search');
+
 /**
 * Implements hook_block_info().
 */
@@ -60,17 +62,21 @@ function librarydams_customizations_taxonomy_validate($element, &$form_state) {
 /**
  * Implements hook_menu().
  */
-function librarydams_customizations_solr_config_menu() {
-	return array(
-		'advanced-search' => array(
-			'title' => t('Advanced search'),
-			'page callback' => 'custom_solr_config_advanced_search',
+function librarydams_customizations_menu() {
+	$menus = array();
+  /* Adapted from code by Rosemary Le Faive
+   * https://groups.google.com/d/msg/islandora/EhW1j10tm-o/tglfL7mbI6oJ */
+	if (module_exists('islandora_solr')) {
+		$menus[ISLANDORA_SOLR_ADVANCED_SEARCH_PATH] = array(
+			'title' => t('Advanced Search'),
+			'page callback' => 'librarydams_customizations_islandora_advanced_search',
 			'access callback' => TRUE,
 			'type' => MENU_NORMAL_ITEM,
-		),
-	);
+		);
+	}
+	return $menus;
 }
 
-function custom_solr_config_advanced_search() {
+function librarydams_customizations_islandora_advanced_search() {
     return module_invoke('islandora_solr', 'block_view', 'advanced');
 }
